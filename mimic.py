@@ -8,18 +8,23 @@
 """Mimic exercise
 
 Read in the file specified on the command line.
-Do a simple split() on whitespace to obtain all the words in the file.
-Rather than read the file line by line, it's easier to read it into
+Do a simple split() on whitespace to obtain all
+the words in the file.
+Rather than read the file line by line, it's
+easier to read it into
 one giant string and split it once.
 
-Note: the standard python module 'random' includes a random.choice(list)
-method which picks a random element from a non-empty list.
+Note: the standard python module 'random' includes a
+random.choice(list)
+method which picks a random element from a non-empty
+list.
 
-You can try adding in line breaks around 70 columns so the output looks
+You can try adding in line breaks around 70 columns
+so the output looks
 better.
 """
 
-__author__ = "???"
+__author__ = "John Wilkinson, youtube, Daniel Demos, https://www.geeksforgeeks.org/enumerate-in-python/, Udemy Python Course, stackOverflow"
 
 import random
 import sys
@@ -44,19 +49,46 @@ def create_mimic_dict(filename):
             }
     """
     # +++your code here+++
-    pass
+    word_dict = {"":[]} #initializing the dict with empty string to take care of first word seed
+    with open(filename) as f:
+        text = f.read()
+        text_to_list = text.split()
+        word_dict[""].append(text_to_list[0])
+        for num, word in enumerate(text_to_list):
+            if num < len(text_to_list)-1:
+                if word in word_dict:
+                    word_dict[word].append(text_to_list[num+1])
+                else:
+                    word_dict[word] = [text_to_list[num+1]]
+    for each in word_dict:
+        print(each, ":", word_dict[each])
+    return word_dict
+    
 
+
+ # """Given a previously created mimic_dict and start_word,
+    # prints 200 random words from mimic_dict as follows:
+    #     - Print the start_word
+    #     - Look up the start_word in your mimic_dict and get its next-list
+    #     - Randomly select a new word from the next-list
+    #     - Repeat this process 200 times
+    # """
 
 def print_mimic(mimic_dict, start_word):
-    """Given a previously created mimic_dict and start_word,
-    prints 200 random words from mimic_dict as follows:
-        - Print the start_word
-        - Look up the start_word in your mimic_dict and get its next-list
-        - Randomly select a new word from the next-list
-        - Repeat this process 200 times
-    """
-    # +++your code here+++
-    pass
+    i=0
+    output_text = start_word
+    while i<200:
+        if start_word in mimic_dict:
+            random_word = random.choice(mimic_dict[start_word])
+            output_text += " " + random_word + " "
+            start_word = random_word
+            i+=1
+        else:
+            start_word = ""
+            i+=1
+    print(output_text)
+    
+    
 
 
 # Provided main(), calls mimic_dict() and print_mimic()
