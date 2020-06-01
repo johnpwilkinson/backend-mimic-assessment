@@ -52,10 +52,13 @@ def create_mimic_dict(filename):
         text_to_list = text.split()
         word_dict[""].append(text_to_list[0])
         for num, word in enumerate(text_to_list):
+            # prevent index overflow
             if num < len(text_to_list)-1:
+                # if word is all ready in dict, then add word that comes after it to its list (value)
                 if word in word_dict:
                     word_dict[word].append(text_to_list[num+1])
                 else:
+                    # if no, then make that word a ket in the dict
                     word_dict[word] = [text_to_list[num+1]]
     for each in word_dict:
         print(each, ":", word_dict[each])
@@ -76,9 +79,13 @@ def print_mimic(mimic_dict, start_word):
     output_text = start_word
     while i<200:
         if start_word in mimic_dict:
+            # pick random word from dict
             random_word = random.choice(mimic_dict[start_word])
+            # add that word to the output text stream
             output_text += " " + random_word + " "
+            # update start_word to current random_word
             start_word = random_word
+            # increase iterator
             i+=1
         else:
             start_word = ""
